@@ -46,6 +46,8 @@ namespace LEGOAniRipper
                 var interleafFile = args[0];
 
                 string path = Directory.GetCurrentDirectory();
+            
+                string trimmedName = interleafFile.Substring(0, interleafFile.IndexOf(".") + 1);
 
             if (File.Exists(interleafFile))
             {
@@ -88,8 +90,10 @@ namespace LEGOAniRipper
                                 si.Position = current_pos;
 
                                 Console.Write(aniFN + '\n');
+                                
+                                Directory.CreateDirectory(Path.Combine(path, trimmedName)); // Create directory with name of input Interleaf file to keep things organized
 
-                                using (FileStream aniOut = new FileStream(path + "/" + aniFN, FileMode.Create, FileAccess.Write))
+                                using (FileStream aniOut = new FileStream(Path.Combine(path, trimmedName) + '/' + aniFN, FileMode.Create, FileAccess.Write))
                                 {
                                     // Find chunks and then check their IDs for a match
                                     while (SeekUntil(si, "MxCh"))
